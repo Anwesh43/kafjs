@@ -2,24 +2,21 @@
     <script src="kafjs.js">
     </script>
     <script>
-        const broker = new Broker()
-        broker.createTopic('data')
-        const producer = new Producer(broker)
-        const consumer1 = new Consumer(broker, (data) => {
-            alert(`consuming 1 ${data.join(",")}`)
+        const broker = Kaf.createBroker()
+        broker.createTopic('store')
+        const producer = Kaf.createProducer()
+        const consumer1 = Kaf.createConsumer('store', (data) => {
+            alert(`the databear is ${data.join(",")}`)
         })
-        const consumer2 = new Consumer(broker, (data) => {
-            alert(`consuming 2 ${data.join(",")}`)
+        const consumer2 = Kaf.createConsumer('store', (data) => {
+            alert(`the dataro is ${data.join(",")}`)
         })
-        const consumer3 = new Consumer(broker, (data) => {
-            alert(`consuming 3 ${data.join(",")}`)
+        const consumer3 = Kaf.createConsumer('store', (data) => {
+            alert(`the dataer is ${data.join(",")}`)
         })
-        consumer1.startConsuming('data')
-        consumer2.startConsuming('data')
-        consumer3.startConsuming('data')
         var i = 0
         window.onmousedown = () => {
-            producer.publish(`data${i}`, 'data', () => {
+            producer.publish(`data${i}`, 'store', () => {
                 console.log("data is pushed")
             })
             i++
