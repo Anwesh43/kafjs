@@ -86,3 +86,26 @@ class Broker {
         this.topics.push(topic)
     }
 }
+
+class Kaf {
+    static createBroker() {
+        if (!Kaf.broker) {
+            Kaf.broker = new Broker()
+        }
+        return Kaf.broker
+    }
+
+    static createProducer() {
+        if (Kaf.broker) {
+            return new Producer(Kaf.broker)
+        }
+    }
+
+    static createConsumer(topicName, cb) {
+        if (Kaf.broker) {
+            const consumer = new Consumer(Kaf.broker, cb)
+            consumer.startConsuming(topicName)
+            return consumer
+        }
+    }
+}
