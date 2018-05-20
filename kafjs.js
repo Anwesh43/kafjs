@@ -6,7 +6,7 @@ class Topic {
         this.subscribers = []
     }
 
-    captureData(data) {
+    pushData(data) {
         this.paritions.push(data)
         this.subscribers.forEach((subscriber) => {
             subscriber.consume(this.partitions)
@@ -20,12 +20,13 @@ class Topic {
 
 class Producer {
 
-    constructor(topicName) {
-        this.topicName = topicName
+    constructor(broker) {
+        this.broker = broker
     }
 
-    publish(data) {
-
+    publish(data, topicName, cb) {
+        const topic = this.broker.getTopic(topicName)
+        topic.pushData(data)
     }
 }
 
