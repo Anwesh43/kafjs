@@ -54,3 +54,23 @@ class Consumer {
         }
     }
 }
+
+class Broker {
+
+    constructor() {
+        this.topics = []
+    }
+
+    getTopic(topicName) {
+        for (let topic of this.topics) {
+            if (topic.name == topicName) {
+                return topic
+            }
+        }
+    }
+
+    createTopic(topicName) {
+        const topic = new Topic(topicName)
+        this.topics.push(topic)
+    }
+}
