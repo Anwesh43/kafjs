@@ -11,3 +11,14 @@ class Topic {
         this.subscribers.consume(this)
     }
 }
+
+class Producer {
+
+    constructor(topicName) {
+        this.topicName = topicName
+    }
+
+    publish(data) {
+
+    }
+}
