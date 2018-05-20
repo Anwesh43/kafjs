@@ -7,7 +7,7 @@ class Topic {
     }
 
     pushData(data) {
-        this.paritions.push(data)
+        this.partitions.push(data)
         this.subscribers.forEach((subscriber) => {
             subscriber.consume(this.partitions)
         })
@@ -38,20 +38,31 @@ class Consumer {
         this.broker = broker
     }
 
-    consume(partition) {
+    consume(partitions) {
         if (this.cb) {
-            var data = ""
+            var data = []
+            var k = 0
             for (var i = this.offset; i < partitions.length; i++) {
-                this.cb(data)
+                data.push(partitions[i])
+                k++
             }
-            this.offset += partitions.length
+            this.cb(data)
+            this.offset += k
         }
     }
 
     startConsuming(topicName) {
-        const topic = this.broker.getTopic(topicName)
-        if (topic) {
-            topic.addConsumer(this)
+        if (this.offset == 0) {
+            const topic = this.broker.getTopic(topicName)
+            if (topic) {
+                topic.addConsumer(this)
+                if (topic.partitions.length > 0) {
+                    this.consume(topic.partitions)
+                }
+            }
+        }
+        else {
+            throw new Error("A consumer can only consume from one topic")
         }
     }
 }
