@@ -130,3 +130,19 @@ class DOMProducer extends Producer{
         }
     }
 }
+
+class DOMConsumer extends Consumer {
+
+    constructor(broker, qs, appendMode, separator) {
+        super(broker, (data) => {
+            const element = document.querySelector(qs)
+            if (appendMode && element.innerHTML.trim() !== "") {
+                element.innerHTML = [...data, element.innerHTML].join(separator)
+            }
+            else {
+                element.innerHTML = data
+            }
+            console.log(`consome ${data}`)
+        })
+    }
+}
