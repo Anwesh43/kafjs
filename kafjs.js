@@ -111,6 +111,22 @@ class Kaf {
             return consumer
         }
     }
+
+    static createDOMProducer(qs, action, data, topicName) {
+        if (Kaf.broker) {
+            const producer = new DOMProducer(Kaf.broker, qs)
+            producer.attachActionToTopic(action, data, topicName)
+            return producer
+        }
+    }
+
+    static createDOMConsumer(qs, topicName, appendMode, separator) {
+        if (Kaf.broker) {
+            const consumer = new DOMConsumer(Kaf.broker, qs, appendMode, separator)
+            consumer.startConsuming(topicName)
+            return consumer
+        }
+    }
 }
 
 class DOMProducer extends Producer{
