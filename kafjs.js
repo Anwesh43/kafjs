@@ -27,6 +27,9 @@ class Producer {
     publish(data, topicName, cb) {
         const topic = this.broker.getTopic(topicName)
         topic.pushData(data)
+        if(cb) {
+            cb()
+        }
     }
 }
 
@@ -106,6 +109,24 @@ class Kaf {
             const consumer = new Consumer(Kaf.broker, cb)
             consumer.startConsuming(topicName)
             return consumer
+        }
+    }
+}
+
+class DOMProducer extends Producer{
+
+    constructor(broker, element) {
+        super(broker)
+        this.element = document.querySelector(element)
+    }
+
+    attachActionToTopic(action, data, topicName) {
+        if (this.element) {
+            this.element[`on${action}`] = (event) => {
+                event.preventDefault()
+                event.stopPropagation()
+                this.publish(data, topicName)
+            }
         }
     }
 }
