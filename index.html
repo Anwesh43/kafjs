@@ -30,6 +30,8 @@
 
         const domConsumer = new DOMConsumer(broker, '#header', true, ',')
 
-        domConsumer.startConsuming('store')
+        Kaf.createDOMProducer('#b1', 'click', 'clicky', 'store')
+
+        Kaf.createDOMConsumer('#header', 'store', true, ' , ')
     </script>
 </body>
