@@ -1,4 +1,5 @@
 <body>
+    <button id="b1">click me</button>
     <script src="kafjs.js">
     </script>
     <script>
@@ -15,11 +16,14 @@
             alert(`the dataer is ${data.join(",")}`)
         })
         var i = 0
-        window.onmousedown = () => {
-            producer.publish(`data${i}`, 'store', () => {
-                console.log("data is pushed")
-            })
-            i++
-        }
+        // window.onmousedown = (event) => {
+        //
+        //     producer.publish(`data${i}`, 'store', () => {
+        //         console.log("data is pushed")
+        //     })
+        //     i++
+        // }
+        const domProducer = new DOMProducer(broker, '#b1')
+        domProducer.attachActionToTopic('click', 'click more','store')
     </script>
 </body>
